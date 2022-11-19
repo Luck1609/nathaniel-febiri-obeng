@@ -8,11 +8,13 @@ export default class ProductCard extends Component {
         <img src={this.props.img} alt="" className="" />
 
         <div className="cart-icon">
-          <CartIcon className="cart" width="27"  height="26" />
+          <CartIcon className="cart" width="27"  height="26" color="#fff" />
         </div>
 
-        <label className="">Apollo Running Short</label>
-        <p className="">$50.00</p>
+        <div className="card-details">
+          <label className="">Apollo Running Short</label>
+          <p className="">$50.00</p>
+        </div>
       </div>
     )
   }

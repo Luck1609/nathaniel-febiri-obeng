@@ -1,13 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './index.css';
-import ProductListing from './Pages/ProductListing';
+// import ProductListing from './Pages/ProductListing';
+import Entry from 'Pages/Entry';
 import reportWebVitals from './reportWebVitals';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <ProductListing />
+    <Entry />
   </React.StrictMode>
 );
 

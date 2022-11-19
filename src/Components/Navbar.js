@@ -6,9 +6,9 @@ class Navbar extends Component {
   state = {  } 
   render() { 
     return (
-      <nav className="navbar">
+      <nav className="navbar container">
         <ul className="">
-          <li className="nav-link">WOMEN</li>
+          <li className="nav-link active">WOMEN</li>
           <li className="nav-link">MEN</li>
           <li className="nav-link">KIDS</li>
         </ul>
@@ -18,11 +18,11 @@ class Navbar extends Component {
         <ul className="">
           <li className="nav-link">$ </li>
           <li className="nav-link">
-            <CartIcon className="cart" width="27"  height="26" />
+            <CartIcon className="cart" width="27"  height="26" color="#43464E" />
 
-            <div className="cart-overlay">
+            {/* <div className="cart-overlay">
               <CartComponent />
-            </div>
+            </div> */}
           </li>
         </ul>
       </nav>

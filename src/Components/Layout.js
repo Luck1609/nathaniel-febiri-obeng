@@ -11,7 +11,7 @@ export default class Layout extends Component {
       <div>
         <Navbar />
 
-        <main className="">{ this.props.children }</main>
+        <main className="container">{ this.props.children }</main>
       </div>
     )
   }

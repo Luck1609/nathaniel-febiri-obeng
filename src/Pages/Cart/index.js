@@ -1,9 +1,9 @@
+import { img } from 'Assets/img/index'
+import { Minus, Plus } from 'Assets/svg'
+import Button from 'Components/Button'
 import React, { Component } from 'react'
-import { img } from 'Assets/img'
-import { Minus, Plus } from '../Assets/svg'
-import Button from './Button'
 
-export default class CartComponent extends Component {
+export default class Cart extends Component {
   render() {
     return (
       <div className="cart-component">
@@ -102,5 +102,3 @@ export default class CartComponent extends Component {
     )
   }
 }
-
-
