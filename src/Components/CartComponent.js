@@ -1,106 +1,43 @@
-import React, { Component } from 'react'
-import { img } from 'Assets/img'
-import { Minus, Plus } from '../Assets/svg'
-import Button from './Button'
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import CartPriceSummary from "./styles/NavCart/CartPriceSummary";
+import Cart from "./styles/NavCart/Cart";
+import styled from "styled-components";
 
-export default class CartComponent extends Component {
+const NavCart = styled.div`
+  width: 325px;
+  position: relative;
+  right: 4pc;
+  background: #fff;
+  padding: 10px;
+`
+
+const CartTitle = styled.label`
+  display: block;
+  margin-bottom: 1.5pc;
+`
+
+class CartComponent extends Component {
   render() {
+
     return (
-      <div className="cart-component">
-        <label>
-          <span>My Bag,</span>  3 items
-        </label>
+      <NavCart>
+        <div className="">
+          <CartTitle className="font-medium">
+            <span className="font-semibold">My Bag,</span> 3 items
+          </CartTitle>
 
-        <div className="cart-item">
-        
-          <div className="remove-item">
-            <p className="">Remove item from cart?</p>
-            <div className="">
-              <Button className="" style={{background: "#e54d4d", display: "inline-block", padding: "8px", width: "50px"}} onClick={() => alert('Yes')}>
-                Yes
-              </Button>
-              <Button className="" style={{background: "#5ECE7B", display: "inline-block", padding: "8px", width: "50px", marginLeft: "10px"}} onClick={() => alert('No')}>
-                No
-              </Button>
-            </div>
-          </div>
+          <Cart />
 
-
-          <div className="info">
-            <label>Apollo Running Short</label>
-            <p>$50.00</p>
-            <div className="sizes">
-              <label>Size:</label>
-              <ul>
-                <li className="">XS</li>
-                <li className="">S</li>
-                <li className="">M</li>
-                <li className="">L</li>
-              </ul>
-            </div>
-            <div className="colors">
-              <label>Color:</label>
-              <ul>
-                {/* <li className=""></li> */}
-                <li className="">S</li>
-                <li className="">M</li>
-              </ul>
-            </div>
-          </div>
-          <div className="counter">
-            <Plus width="35" height="35" />
-            <span>1</span>
-            <Minus width="35" height="35" />
-          </div>
-          <img src={img.sweater} alt="" className="" />
+          <CartPriceSummary />
         </div>
-
-        <div className="cart-item">
-
-          <div className="remove-item">
-            <p className="">Remove item from cart?</p>
-            <div className="">
-              <Button className="" style={{background: "#e54d4d", display: "inline-block", padding: "8px", width: "50px"}} onClick={() => alert('Yes')}>
-                Yes
-              </Button>
-              <Button className="" style={{background: "#5ECE7B", display: "inline-block", padding: "8px", width: "50px", marginLeft: "10px"}} onClick={() => alert('No')}>
-                No
-              </Button>
-            </div>
-          </div>
-
-
-          <div className="info">
-            <label>Apollo Running Short</label>
-            <p>$50.00</p>
-            <div className="sizes">
-              <label>Size:</label>
-              <ul>
-                <li className="">XS</li>
-                <li className="">S</li>
-                <li className="">M</li>
-                <li className="">L</li>
-              </ul>
-            </div>
-            <div className="colors">
-              <label>Color:</label>
-              <ul>
-                {/* <li className=""></li> */}
-                <li className="">S</li>
-                <li className="">M</li>
-              </ul>
-            </div>
-          </div>
-          <div className="counter">
-            <Plus width="35" height="35" />
-            <span>1</span>
-            <Minus width="35" height="35" />
-          </div>
-          <img src={img.sweater} alt="" className="" />
-        </div>
-      </div>
-    )
+      </NavCart>
+    );
   }
 }
 
+const mapStateToProps = (state) => ({
+  cart: state.cart
+})
 
+export default connect(mapStateToProps)(CartComponent)

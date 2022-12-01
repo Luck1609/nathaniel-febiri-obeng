@@ -5,6 +5,7 @@
       "Assets/img/*": ["Assets/img/*"],
       "Pages/*": ["Pages/*"],
       "Redux/*": ["Redux/*"],
+      "Hooks/*": ["Hooks/*"],
       "Components/*": ["Components/*"]
     }
   }
