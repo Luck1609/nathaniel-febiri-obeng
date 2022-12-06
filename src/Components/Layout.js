@@ -2,10 +2,11 @@ import React, { Component } from "react";
 import { Outlet } from "react-router-dom";
 import { Loading } from "Assets/svg";
 import Navbar from "./Navbar";
-import { fetchCategories, fetchCategoryDetails } from "queries";
+import { fetchCategoryDetails, fetchCategories } from "queries";
 import { withRouter } from "Hooks/CustomHooks";
 import { connect } from "react-redux";
 import { updateProducts, switchCurrency } from "Redux/index";
+import { AppLoader } from "./styles/navbar.styles";
 
 
 class Layout extends Component {
@@ -32,18 +33,9 @@ class Layout extends Component {
         query: fetchCategories
       })
 
-      // console.log('CDM results', result)
-
       this.props.dispatch(switchCurrency(result.data.currencies[0]))
 
       this.setState({...this.state, ...result.data})
-      
-      const category = await this.props.client.query({
-        query: fetchCategoryDetails,
-        variables: {input: {title: this.props.location.pathname.split('/')[1]}}
-      })
-
-      this.props.dispatch(updateProducts(category.data.category.products))
     };
     data()
   }
@@ -64,9 +56,9 @@ class Layout extends Component {
       <div>
         {
           !this.state.categories && (
-            <div className="app-loader flex">
+            <AppLoader className="flex">
               <Loading className="loader" />
-            </div>
+            </AppLoader>
           )
         }
         <Navbar 
@@ -88,4 +80,5 @@ const mapStateToProps = (state) => ({
   state
 })
 
+// export default Layout;
 export default connect(mapStateToProps)(withRouter(Layout));

@@ -1,18 +1,17 @@
-import { img } from 'Assets/img/index'
-import { CaretLeft, CaretRight, Minus, Plus } from 'Assets/svg'
-import Button from 'Components/styles/Button'
+import { img } from "Assets/img/index";
+import { CaretLeft, CaretRight, Minus, Plus } from "Assets/svg";
+import Button from "Components/styles/Button";
+import { CounterBtn } from "Components/styles/cart_page.styles";
 // import Button from 'Components/Button'
 // import Button from 'Components/Button'
-import React, { Component } from 'react'
+import React, { Component } from "react";
 
 export default class Cart extends Component {
   render() {
-
     return (
       <div className="cart-page">
         <div className="cart-component">
-
-          <ul className="cart-item">         
+          <ul className="cart-item">
             <li className="product-details-info">
               {/* <div className="remove-item">
                 <p className="">Remove item from cart?</p>
@@ -48,36 +47,45 @@ export default class Cart extends Component {
                     <li className="">M</li>
                   </ul>
                 </div>
-
-
               </div>
 
               <div className="actions">
                 <div className="counter flex flex-col">
-                  <Plus width="35" height="35" />
+                  <CounterBtn>
+                    <Plus width="15" height="15" />
+                  </CounterBtn>
+
                   <span className="flex">1</span>
-                  <Minus width="35" height="35" />
+
+                  <CounterBtn>
+                    <Minus width="15" height="15" />
+                  </CounterBtn>
                 </div>
 
                 <div className="action-buttons">
                   <img src={img.sweater} alt="" className="" />
 
                   <div className="btn-container">
-                    <Button background="transparent" onClick={() => alert('Left')}>
+                    <Button
+                      background="transparent"
+                      onClick={() => alert("Left")}
+                    >
                       <CaretLeft />
                     </Button>
 
-                    <Button background="transparent" onClick={() => alert('Right')}>
+                    <Button
+                      background="transparent"
+                      onClick={() => alert("Right")}
+                    >
                       <CaretRight />
                     </Button>
                   </div>
                 </div>
               </div>
             </li>
-
           </ul>
         </div>
       </div>
-    )
+    );
   }
 }

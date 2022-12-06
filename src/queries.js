@@ -21,6 +21,7 @@ const fetchCategoryDetails = gql`
         id
         name
         inStock
+        brand
         gallery
         attributes {
           id
@@ -54,9 +55,38 @@ const fetchCurrencies = gql`
   }
 `
 
+const fetchProductDetails = gql`
+  query ($id: String!) {
+    product(id: $id) {
+      id
+      name
+      brand
+      gallery
+      description
+      attributes {
+        id
+        name
+        type
+        items {
+          displayValue
+          value
+          id
+        }
+      }
+      prices {
+        amount
+        currency {
+          label
+          symbol
+        }
+      }
+    }
+  }
+`
+
 export {
   fetchCategories,
   fetchCategoryDetails,
   fetchCurrencies,
-  // fetchProductDetails
+  fetchProductDetails
 }

@@ -1,12 +1,17 @@
-import React, { Component } from 'react'
-import { connect } from 'react-redux'
-import styled from 'styled-components'
-import { CartIcon } from '../Assets/svg'
-import AddToCartModal from './styles/AddToCartModal'
-import { success } from './styles/colors.styles'
+import { getActiveCurrency } from "helper";
+import React, { Component } from "react";
+import { connect } from "react-redux";
+import { toggleCart } from "Redux/cartReducer";
+import styled from "styled-components";
+import { CartIcon } from "../Assets/svg";
+import LinkItem from "./Link";
+import { success } from "./styles/colors.styles";
 
 const ProductCardContainer = styled.div`
   position: relative;
+  /* background-color: red; */
+  display: inline-flex;
+  /* max-width: calc(100% / 3); */
 
   .product-card {
     padding: 10px;
@@ -19,23 +24,10 @@ const ProductCardContainer = styled.div`
       box-shadow: 0px 4px 35px rgba(168, 172, 176, 0.19);
     }
 
-    .cart-details {
+    .card-details {
       font-size: 18px;
       line-height: 29px;
-    }
-
-    .cart-icon {
-      width: 55px;
-      height: 55px;
-      border-radius: 50%;
-      background: ${success};
-      position: absolute;
-      bottom: 4pc;
-      right: 2.5pc;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      visibility: hidden;
+      position: relative;
     }
 
     label {
@@ -52,10 +44,23 @@ const ProductCardContainer = styled.div`
       margin: 0;
     }
   }
-  
-  
 
-  .product-card:hover .cart-icon {
+  .cart-icon {
+    width: 55px;
+    height: 55px;
+    border-radius: 50%;
+    background: ${success};
+    position: absolute;
+    bottom: 70px;
+    right: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    visibility: hidden;
+    z-index: 30;
+  }
+
+  &:hover .cart-icon {
     visibility: visible;
     cursor: pointer;
   }
@@ -72,62 +77,62 @@ const ProductCardContainer = styled.div`
     justify-content: center;
     align-items: center;
     font-size: 24px;
-    color: #8D8F9A;
+    color: #8d8f9a;
     font-weight: normal;
   }
-`
+`;
 
 class ProductCard extends Component {
   constructor(props) {
-    super(props)
-  
-    this.state = {
-      item: null
-    }
+    super(props);
 
-    this.showCart = this.showCart.bind(this)
+    this.state = {
+      item: null,
+    };
+
+    this.showCart = this.showCart.bind(this);
   }
 
-  showCart = (item)  => () => this.setState({item})
+  showCart = (item) => () => this.props.dispatch(toggleCart(item));
 
   render() {
-    const data = this.props.data, currency = this.props.currency
+    const{ currency, data } = this.props;
 
-    const activePrice = data.prices.indexOf(data.prices.filter(price => price.currency.label === currency.label)[0])
-
-
+    const activePriceindex = getActiveCurrency(data?.prices, currency?.label);
 
     return (
       <>
         <ProductCardContainer>
-          {
-            this.props.out && <div className="out-of-stock">
+          {this.props.out && (
+            <div className="out-of-stock">
               <span className="">OUT OF STOCK</span>
             </div>
-          }
-          <div className="product-card">
-            
-            <img src={data.gallery[0]} alt="" className="" />
+          )}
 
-            <div className="cart-icon" onClick={this.showCart(data)}>
-              <CartIcon className="cart" width="27"  height="26" color="#fff" />
-            </div>
+          <LinkItem url="product-details" state={{ id: data.id }}>
+            <div className="product-card">
+              <img src={data.gallery[0]} alt="" className="" />
 
-            <div className="card-details">
-              <label className="">{ data.name }</label>
-              <p className="">{currency.symbol} { data.prices[activePrice].amount }</p>
+              <div className="card-details">
+                <label className="">{data.name}</label>
+                <p className="">
+                  {currency?.symbol} {data.prices[activePriceindex]?.amount}
+                </p>
+              </div>
             </div>
+          </LinkItem>
+
+          <div className="cart-icon" onClick={this.showCart(data)}>
+            <CartIcon className="cart" width="27" height="26" color="#fff" />
           </div>
         </ProductCardContainer>
-
-        {
-          this.state.item && <AddToCartModal showCart={this.showCart} item={this.state.item} />
-        }
       </>
-    )
+    );
   }
 }
 
-const mapStateToProps = (state) => ({ currency: state.appActions.activeCurrency })
+const mapStateToProps = (state) => ({
+  currency: state.appActions.activeCurrency,
+});
 
-export default connect(mapStateToProps)(ProductCard)
+export default connect(mapStateToProps)(ProductCard);

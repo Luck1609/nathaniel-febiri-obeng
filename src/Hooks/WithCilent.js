@@ -1,32 +1,22 @@
 import { Component } from 'react';
 import { ApolloConsumer } from '@apollo/client';
-import Layout from 'Components/Layout';
-
-// export default function WithApolloClient() {
-//   return (
-//     <ApolloConsumer>
-//       {(client) => <>
-//       We have access to the client!
-//         {console.log('Client!', client) /* do stuff here */}
-//       </>}
-//     </ApolloConsumer>
-//   );
-// }
+// import Layout from 'Components/Layout';
 
 class WithApolloClient extends Component {
 
   render() { 
-    // const Children = this.props.component;
+    const Content = this.props.content;
 
+    // console.log('Apollo contnent', this.props)
 
-    // console.log('Apollo clinet child', Children)
     return (
       <ApolloConsumer>
-        {/* {(client) => <>{ this.props.children }</>} */}
-        {/* {(client) => <Children client={client} />} */}
         {
-          (client) => <Layout client={client} />
+          (client) => <Content client={client} />
         }
+        {/* {
+          (client) => <Layout client={client} />
+        } */}
       </ApolloConsumer>
     );
   }

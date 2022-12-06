@@ -2,27 +2,18 @@ import { withRouter } from "Hooks/CustomHooks";
 import React, { Component } from "react";
 import { connect } from "react-redux";
 import { switchCurrency } from "Redux/index";
-import styled from "styled-components";
 import { CaretLeftOutline, CartIcon, Loading, Logo } from "../Assets/svg";
 import CartComponent from "./CartComponent";
 import NavLinkItem from "./NavLink";
+import {
+  Navbar,
+  LogoContainer,
+  Overlay,
+  NavActions,
+  AppLoader,
+} from "./styles/navbar.styles";
 
-export const Overlay = styled.div`
-  position: fixed;
-  left: 0;
-  top: 80px;
-  width: 100%;
-  height: 100%;
-  background: #39374838;
-  z-index: 50;
-  display: flex;
-  justify-content: flex-end;
-`
-const LogoContainer = styled.div`
-  cursor: pointer;
-`   
-
-class Navbar extends Component {
+class Nav extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -36,9 +27,9 @@ class Navbar extends Component {
 
     if (data.loading) {
       return (
-        <div className="app-loader">
+        <AppLoader>
           <Loading />
-        </div>
+        </AppLoader>
       );
     }
   }
@@ -47,12 +38,11 @@ class Navbar extends Component {
     const toggleCart = (field) => () =>
       this.setState((prev) => ({ ...prev, [field]: !prev[field] }));
 
-    const updateCurrency = (currency) => () => this.props.dispatch(switchCurrency(currency))
+    const updateCurrency = (currency) => () =>
+      this.props.dispatch(switchCurrency(currency));
 
-
-    // console.log('Nav cart options', this.props.cart)
     return (
-      <nav className="navbar container">
+      <Navbar className="container">
         <ul className="">
           {this.props?.navLinks
             ? this.props.navLinks.map((item, index) => {
@@ -75,16 +65,16 @@ class Navbar extends Component {
             : null}
         </ul>
 
-        <LogoContainer onClick={() => {
-              this.props.navigate('/')
-              this.props.request('all')
-            }
-          }
+        <LogoContainer
+          onClick={() => {
+            this.props.navigate("/");
+            this.props.request("all");
+          }}
         >
           <Logo />
         </LogoContainer>
 
-        <ul className="nav-actions">
+        <NavActions>
           <li className="" onClick={toggleCart("showCurrency")}>
             <span>{this.props.currency?.symbol}</span>
             <CaretLeftOutline color="#1D1F22" style={{ rotate: "-90deg" }} />
@@ -96,7 +86,11 @@ class Navbar extends Component {
                     (currency) => currency.label !== this.props.currency.label
                   )
                   .map(({ symbol, label }, index) => (
-                    <li className="" key={index.toString()} onClick={updateCurrency({label, symbol})}>
+                    <li
+                      className=""
+                      key={index.toString()}
+                      onClick={updateCurrency({ label, symbol })}
+                    >
                       {symbol} {label}
                     </li>
                   ))}
@@ -109,7 +103,9 @@ class Navbar extends Component {
             onClick={toggleCart("showCart")}
           >
             <CartIcon className="cart" width="27" height="26" color="#43464E" />
-            {this.props.cart.cart.length > 0 && <span className="badge">{ this.props.cart.cart.length }</span>}
+            {this.props.cart.cart.length > 0 && (
+              <span className="badge">{this.props.cart.cart.length}</span>
+            )}
 
             {this.state.showCart && (
               <Overlay>
@@ -117,8 +113,8 @@ class Navbar extends Component {
               </Overlay>
             )}
           </li>
-        </ul>
-      </nav>
+        </NavActions>
+      </Navbar>
     );
   }
 }
@@ -128,4 +124,4 @@ const mapStateToProps = (state) => ({
   currency: state.appActions.activeCurrency,
 });
 
-export default connect(mapStateToProps)(withRouter(Navbar));
+export default connect(mapStateToProps)(withRouter(Nav));
