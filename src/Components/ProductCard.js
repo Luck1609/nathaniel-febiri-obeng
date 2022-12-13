@@ -5,13 +5,17 @@ import { toggleCart } from "Redux/cartReducer";
 import styled from "styled-components";
 import { CartIcon } from "../Assets/svg";
 import LinkItem from "./Link";
-import { success } from "./styles/colors.styles";
+import { media, success } from "./styles/colors.styles";
 
 const ProductCardContainer = styled.div`
   position: relative;
-  /* background-color: red; */
+  margin: 0 10px;
+  border: 1px solid #eee;
+  border-radius: 3px;
+  ${media.sm} {
+    border: none;
+  }
   display: inline-flex;
-  /* max-width: calc(100% / 3); */
 
   .product-card {
     padding: 10px;
@@ -114,7 +118,7 @@ class ProductCard extends Component {
               <img src={data.gallery[0]} alt="" className="" />
 
               <div className="card-details">
-                <label className="">{data.name}</label>
+                <label className="">{data.brand} {data.name}</label>
                 <p className="">
                   {currency?.symbol} {data.prices[activePriceindex]?.amount}
                 </p>

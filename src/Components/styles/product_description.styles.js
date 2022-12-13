@@ -1,27 +1,46 @@
 import styled from "styled-components";
 import { Attributes } from "./cart_page.styles";
-import { success } from "./colors.styles";
+import { media, success } from "./colors.styles";
 
 const Productcontainer = styled.div`
   display: flex;
   width: 100%;
   margin-bottom: 5pc;
   gap: 20px;
-  margin-top: 5pc;
+  margin-top: 2pc;
+  flex-direction: column;
+  ${media.md} {
+    margin-top: 5pc;
+    flex-direction: row;
+  }
 
   .img-container {
     display: flex;
-    flex-basis: 65%;
+    flex-basis: 100%;
     gap: 30px;
+    flex-direction: column;
+    ${media.md} {
+      flex-basis: 65%;
+      flex-direction: row;
+    }
 
     .img-list {
       padding: 0;
       margin: 0;
-      height: 400px;
-      overflow-y: scroll;
+      white-space: nowrap;
+        overflow-x: scroll;
+      ${media.md} {
+        height: 400px;
+        overflow-y: scroll;
+          overflow-x: hidden;
+      }
 
       li {
         list-style-type: none;
+        display: inline-block;
+        ${media.md} {
+          display: block;
+        }
 
         .img {
           width: 79px;
@@ -29,6 +48,9 @@ const Productcontainer = styled.div`
 
         &.active {
           border: 2px solid ${success};
+        }
+        &:not(:last-child) {
+          margin-right: 5px;
         }
       }
     }
@@ -39,7 +61,10 @@ const Productcontainer = styled.div`
       width: 100%;
 
       img {
-        position: absolute;
+        position: relative;
+        ${media.md} {
+          position: absolute;
+        }
         top: 0;
         left: 0;
         width: 100%;
@@ -48,12 +73,18 @@ const Productcontainer = styled.div`
   }
 
   .product-details-info {
-    flex-basis: 35%;
-    // background: cyan;
+    flex-basis: 100%;
+    padding: 0 10px;
+
+    ${media.md} {
+      flex-basis: 35%;
+    }
 
     .details {
-      width: 292px;
-      // background: turquoise;
+      width: 100%;
+      ${media.md} {
+        width: 292px;
+      }
 
       .labels {
         font-size: 30px;
@@ -127,6 +158,7 @@ const Productcontainer = styled.div`
         font-size: 16px;
         font-family: "roboto";
         line-height: 26px;
+        /* text-align: justify; */
       }
     }
   }

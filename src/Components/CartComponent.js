@@ -1,26 +1,46 @@
-import React, { Component } from "react";
+import React, { Component, forwardRef, Fragment } from "react";
 import { connect } from "react-redux";
 import CartPriceSummary from "./NavCart/CartPriceSummary";
 import Cart from "./NavCart/Cart";
 import styled from "styled-components";
-import { success } from "./styles/colors.styles";
+import { media, success } from "./styles/colors.styles";
+import ClickAwayListener from "./ClickAwayListener";
 
 const NavCart = styled.div`
-  width: 325px;
+  width: 95%;
   position: relative;
-  right: 4pc;
+  top: 3px;
+  margin: auto;
   background: #fff;
-  padding: 10px;
+  max-height: 500px;
+  ${media.md} {
+    margin: 0 auto;
+  }
+
+  ${media.md} {
+    right: 4pc;
+    top: 0;
+    width: 325px;
+    margin: 0;
+  }
+
+  >div {
+    padding: 16px;
+  }
 `;
 
 const CartTitle = styled.label`
   display: block;
   margin-bottom: 1.5pc;
 `;
+
 const CartDisplay = styled.div`
   display: grid;
   grid-row-gap: 1.5pc;
-  max-height: 340px;
+  max-height: 300px;
+  ${media.md} {
+    max-height: 250px;
+  }
   overflow-y: scroll;
   overflow-x: hidden;
 
@@ -47,25 +67,37 @@ class CartComponent extends Component {
       cart: this.props.cart,
     };
   }
+
   render() {
+
+    const { toggle } = this.props;
+
     return (
-      <NavCart>
-        <div className="">
-          <CartTitle className="font-medium">
-            <span className="font-semibold">My Bag,</span>{" "}
-            {this.state.cart.length} item(s)
-          </CartTitle>
+      <ClickAwayListener 
+        close={toggle(null)}
+        content={
+          forwardRef((props, ref) => <NavCart ref={ref}>
+              <div className="">
+                <CartTitle className="font-medium">
+                  <span className="font-semibold">My Bag,</span>
+                  {this.props.cart.length} item(s)
+                </CartTitle>
 
-          <CartDisplay>
-            {this.state.cart.length > 0 &&
-              this.state.cart.map((item, index) => (
-                <Cart item={item} key={index.toString()} state={item} />
-              ))}
-          </CartDisplay>
+                <CartDisplay>
+                  {this.props.cart.length > 0 &&
+                    this.props.cart.map((item, index) => (
+                      <Fragment key={index.toString()}>
+                        <Cart item={item} index={index} />
+                      </Fragment>
+                    ))}
+                </CartDisplay>
 
-          <CartPriceSummary />
-        </div>
-      </NavCart>
+                <CartPriceSummary toggle={toggle(null)} />
+              </div>
+            </NavCart>
+          )
+        }
+      />
     );
   }
 }

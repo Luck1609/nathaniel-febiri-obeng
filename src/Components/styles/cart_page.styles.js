@@ -1,6 +1,6 @@
 import styled from "styled-components"
 import { Btn } from "./Button"
-import { success, textColor } from "./colors.styles"
+import { media, success, textColor } from "./colors.styles"
 
 const CartItem = styled.div`
   position: relative;
@@ -8,6 +8,10 @@ const CartItem = styled.div`
   gap: 8px;
   font-size: large;
   position: relative;
+  flex-direction: column;
+  ${media.md} {
+    flex-direction: row;
+  }
 
   >label {
     font-size: 18px;
@@ -83,13 +87,22 @@ const CartItem = styled.div`
 
   .nav-cart-actions {
     display: flex;
+    flex-direction: column;
+    ${media.md} {
+      flex-direction: row;
+    }
 
     .counter {
       margin-right: 8px;
+      order: 2;
+      ${media.md} {
+        order: 1;
+      }
     }
     img {
       width: 121px;
-      /* height: 190px; */
+      margin: auto;
+      order: 1;
     }
   }
 `

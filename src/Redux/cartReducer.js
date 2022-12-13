@@ -20,21 +20,19 @@ const cartSlice = createSlice({
     },
 
     removeFromCart: (state, {payload}) => {
-      state.cart.filter(([index, item]) => index !== payload)
+      state.cart.splice(payload, 1)
       return 
     },
 
-    increment: (state, {payload: {index, count}}) => {
-      let cart = state.cart
-      cart[index].quantity += 1
-
-      state.cart = cart; 
-      // state.cart[index].quantity = count; 
+    increment: (state, {payload}) => {
+      console.log('Increment')
+      state.cart[payload].quantity += 1
       return
     },
 
     decrement: (state, {payload}) => {
-      state.cart[payload.index].quantity = payload.count; 
+      console.log('Decrement')
+      state.cart[payload].quantity -= 1;
       return
     },
 
@@ -54,6 +52,6 @@ const cartSlice = createSlice({
 const { actions, reducer } = cartSlice;
 
 // export action creators
-export const { addToCart, increment, decrement, toggleCart, changeAttribute } = actions;
+export const { addToCart, increment, decrement, toggleCart, changeAttribute, removeFromCart } = actions;
 
 export default reducer;

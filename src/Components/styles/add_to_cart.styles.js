@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { danger } from "./colors.styles";
+import { danger, media } from "./colors.styles";
 import { Overlay } from "./navbar.styles";
 
 const Modal = styled(Overlay)`
@@ -10,7 +10,9 @@ const Modal = styled(Overlay)`
 
 const ModalContainer = styled.div`
   background: #fff;
-  width: 530px;
+  ${media.md} {
+    width: 530px;
+  }
   gap: 0;
   padding: 1pc;
   border-radius: 3px;
@@ -25,8 +27,11 @@ const ModalContainer = styled.div`
   }
 
   img {
-    height: 250px !important;
-    width: auto !important;
+    margin: auto;
+    ${media.md} {
+      height: 250px !important;
+      width: auto !important;
+    }
   }
 `;
 
@@ -42,10 +47,27 @@ const ErrorDisplay = styled.ul`
 `;
 
 const CartFooter = styled.div`
-  width: 60%;
+  width: 100%;
+  ${media.md} {
+    width: 60%;
+  }
   margin: 20px auto 0 auto;
   display: flex;
   justify-content: space-between;
+
+  button {
+    width: 125px;
+    ${media.md} {
+      width: 150px;
+    }
+
+    &:first-child {
+      margin-right: 10px;
+      ${media.md} {
+        margin-right: 0;
+      }
+    }
+  }
 `;
 
 const NoProducts = styled.div`

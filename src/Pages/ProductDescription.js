@@ -44,8 +44,6 @@ class ProductDescription extends Component {
   showCart = (item)  => () => this.props.dispatch(toggleCart(item))
 
   render() {
-
-    // console.log('Description props', this.state.product)
     const { product } = this.state, { currency } = this.props
 
     return (

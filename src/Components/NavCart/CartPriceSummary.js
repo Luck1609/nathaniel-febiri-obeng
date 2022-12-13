@@ -1,4 +1,5 @@
 import LinkItem from "Components/Link";
+import { media } from "Components/styles/colors.styles";
 import { getActiveCurrency } from "helper";
 import { withRouter } from "Hooks/CustomHooks";
 import React, { Component } from "react";
@@ -22,6 +23,13 @@ const CheckoutContainer = styled.div`
   div {
     display: flex;
     justify-content: space-between;
+  }
+
+  button {
+    width: 130px;
+    ${media.md} {
+      width: 143px;
+    }
   }
 `;
 
@@ -58,13 +66,13 @@ class CartPriceSummary extends Component {
               background="transparent"
               color="#1D1F22"
               border="1px solid black"
-              width="155px"
+              onClick={this.props.toggle}
             >
               View Bag
             </Button>
           </LinkItem>
 
-          <Button background="#5ECE7B" width="155px">
+          <Button background="#5ECE7B">
             Checkout
           </Button>
         </div>

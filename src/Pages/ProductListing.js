@@ -5,9 +5,11 @@ import ProductCard from "Components/ProductCard";
 import { withRouter } from "Hooks/CustomHooks";
 import { fetchCategoryDetails } from "queries";
 import { updateProducts } from "Redux/index";
+import { media } from "Components/styles/colors.styles";
 
 const Container = styled.div`
   h1 {
+    padding: 0 10px;
     margin: 60px 0;
     font-size: 35px;
   }
@@ -16,7 +18,10 @@ const Container = styled.div`
   .main {
     display: grid;
     width: 100%;
-    grid-template-columns: auto auto auto;
+    grid-template-columns: auto;
+    ${media.md} {
+      grid-template-columns: repeat(3, 1fr);
+    }
     column-gap: 3pc;
     row-gap: 3pc;
     place-items: end;

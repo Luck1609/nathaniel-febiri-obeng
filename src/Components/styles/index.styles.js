@@ -1,9 +1,8 @@
-import { textColor } from "./colors.styles";
+import { media, textColor } from "./colors.styles";
 import { createGlobalStyle } from "styled-components";
 
 export const GlobalStyles = createGlobalStyle`
   body {
-    @import url('https://fonts.googleapis.com/css2?family=Raleway:wght@400;500;600;700&family=Roboto+Condensed:wght@300;400;700&family=Roboto:wght@400;500;700&display=swap');
     color: ${textColor};
     font-family: 'Raleway', sans-serif;
     margin: 0;
@@ -84,7 +83,12 @@ export const GlobalStyles = createGlobalStyle`
   .counter {
     font-weight: 500;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    order: 2;
+    ${media.md} {
+      order: 1;
+      flex-direction: column;
+    }
 
     span {
       flex-grow: 1;

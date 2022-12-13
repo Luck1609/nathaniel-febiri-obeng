@@ -12,7 +12,7 @@ export default class RemoveFromCart extends Component {
             background={danger}
             padding="8px"
             width="50px"
-            onClick={() => alert("Yes")}
+            onClick={this.props.remove}
           >
             Yes
           </Button>
@@ -22,7 +22,7 @@ export default class RemoveFromCart extends Component {
             padding="8px"
             width="50px"
             marginLeft="10px"
-            onClick={() => alert("No")}
+            onClick={this.props.cancel}
           >
             No
           </Button>

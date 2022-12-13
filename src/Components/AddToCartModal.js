@@ -28,13 +28,13 @@ class AddToCartModal extends Component {
     this.showCart = this.showCart.bind(this);
   }
 
-  updateState(params) {
-    this.setState((prev) => ({
-      ...prev,
-      ...params,
-      cartErrors: [],
-    }));
-  }
+  updateState = (params) => this.setState((prev) => ({
+    ...prev,
+    ...params,
+    cartErrors: [],
+  }));
+  
+  
 
   pushToCart = () => {
     let cartErrors = [];
@@ -54,7 +54,7 @@ class AddToCartModal extends Component {
           ...state,
         })
       );
-      this.setState(() => initialState);
+      this.setState(initialState)
       this.showCart();
     }
   };
@@ -62,7 +62,9 @@ class AddToCartModal extends Component {
   showCart = () => this.props.dispatch(toggleCart(null));
 
   render() {
-    // console.log('Cart modal state =>', this.state)
+
+    // console.log('State update', this.state, this.props)
+    const { cartErrors, ...currentState } = this.state;
 
     return (
       <>
@@ -73,7 +75,7 @@ class AddToCartModal extends Component {
             <ModalContainer>
               <Cart
                 update={this.updateState}
-                item={this.props.modal}
+                item={{product: this.props.modal, ...currentState}}
                 state={this.state}
               />
 
@@ -88,14 +90,12 @@ class AddToCartModal extends Component {
               <CartFooter>
                 <Button
                   background={success}
-                  width="150px"
                   onClick={this.pushToCart}
                 >
                   Add to Cart
                 </Button>
                 <Button
                   background={danger}
-                  width="150px"
                   disabled={
                     this.state.size && !this.state.color && !this.state.quantity
                   }

@@ -2,13 +2,24 @@ import React, { Component, Fragment } from "react";
 import { Minus, Plus } from "Assets/svg";
 import { connect } from "react-redux";
 import { Attributes, CartItem, CounterBtn } from "../styles/cart_page.styles";
+import { getActiveCurrency } from "helper";
+import { decrement, increment } from "Redux/cartReducer";
+import RemoveFromCart from "./RemoveFromCart";
 
 class Cart extends Component {
+  constructor(props) {
+    super(props)
+  
+    this.state = {
+      removeItem: false
+    }
+  }
+
   render() {
-    // const { dispatch } = this.props.dispatch
-    // const updateCart = (product) => () => {
-    //   dispatch(addToCart(product))
-    // }
+
+    const { dispatch, index } = this.props;
+    const item = this.props.item?.product ?? this.props.item, { currency } = this.props;
+    const activeCurrencyIndex = getActiveCurrency(item.prices, currency?.label);
 
     const updateAttributes = (attrib) => () => {
       if (this.props.update) {
@@ -23,21 +34,31 @@ class Cart extends Component {
           });
         else this.props.update(attrib);
       } else {
+        if (attrib === "increment") dispatch(increment(index))
+        else {
+          if (this.props.item.quantity === 1) this.setState({removeItem: true}, console.log('Nav cart props', this.state))
+          else dispatch(decrement(index))
+        }
       }
     };
-
-    const item = this.props.item?.product ?? this.props.item;
-
-    //  console.log("Items from cart page", this.props)
+    
+          // console.log('Nav cart props', this.state)
 
     return (
       <>
         {item && (
           <CartItem>
+            {
+              this.state.removeItem && (
+                <RemoveFromCart 
+
+                />
+              )
+            }
             <div className="info">
               <h3>{item.brand}</h3>
               <label>{item.name}</label>
-              <span className="font-medium">$50.00</span>
+              <span className="font-medium">{ currency?.symbol }{ item.prices[activeCurrencyIndex]?.amount }</span>
               {item.attributes.map(({ name, items }) => {
                 return (
                   <Attributes className={name.toLowerCase()} key={name}>
@@ -49,7 +70,7 @@ class Cart extends Component {
                             {name === "Color" ? (
                               <li
                                 className={
-                                  this.props.state[name.toLowerCase()] === value
+                                  this.props.item[name.toLowerCase()] === value
                                     ? "active"
                                     : ""
                                 }
@@ -64,7 +85,7 @@ class Cart extends Component {
                             ) : (
                               <li
                                 className={
-                                  this.props.state[name.toLowerCase()] === value
+                                  this.props.item[name.toLowerCase()] === value
                                     ? "active"
                                     : ""
                                 }
@@ -90,7 +111,7 @@ class Cart extends Component {
                   <Plus width={10} height={10} />
                 </CounterBtn>
 
-                <span className="flex">{this.props.state.quantity}</span>
+                <span className="flex">{this.props.item.quantity}</span>
 
                 <CounterBtn onClick={updateAttributes("decrement")}>
                   <Minus width={10} height={10} />
@@ -105,6 +126,6 @@ class Cart extends Component {
   }
 }
 
-const mapStateToProps = (state) => ({ cart: state.cart });
+const mapStateToProps = (state) => ({ cart: state.cart, currency: state.appActions.activeCurrency });
 
 export default connect(mapStateToProps)(Cart);

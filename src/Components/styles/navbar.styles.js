@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { textColor, currencyHover, border, success } from "./colors.styles";
+import { textColor, currencyHover, border, success, media } from "./colors.styles";
 
 const Navbar = styled.nav`
   width: 100%;
@@ -15,19 +15,88 @@ const Navbar = styled.nav`
     li {
       text-decoration: none;
       list-style-type: none;
-      display: inline-flex;
       cursor: pointer;
+      ${media.md} {
+        display: inline-flex;
+      }
       
       .nav-link {
-        display: inline-flex;
         margin: 8px 0;
-        padding: 1.8pc;
         text-decoration: none;
+        padding: 10px;
+        padding-left: 40px;
+
+        ${media.md} {
+          padding-left: 0;
+          padding: 1.8pc;
+        }
       }
     }
 
   }
+`
+
+const PageLinksContainer = styled.div`
+  position: fixed;
+  top: 0;
+  height: 100%;
+  background: transparent;
+  /* background: #00000054; */
+  width: 100%;
+  z-index: 10;
+  transition: 0.3s;
+  left: ${({ active }) => active ? "0" : "-100%"};
   
+  ${media.md} {
+    width: auto;
+    position: relative;
+    left: 0;
+    border: none;
+  }
+`
+
+const PageLinks = styled.ul`
+  position: relative;
+  height: 100%;
+  background: #fff;
+  border-right: 1px solid #eee;
+  width: 200px;
+
+  ${media.md} {
+    width: auto;
+    border: none;
+  }
+  z-index: 10;
+  transition: 0.3s;
+  margin: 0;
+
+
+
+  li {
+    display: block;
+
+    .nav-link {
+      display: block;
+    }
+  }
+  
+  ${media.md} {
+    position: relative;
+  }
+`
+
+const NavLogo = styled.li`
+  margin-bottom: 20px;
+  ${media.md} {
+    display: none !important;
+  }
+  a {
+    display: flex;
+    align-items: center; 
+    padding: 10px; 
+    border-bottom: 1px solid #eee;
+    position: relative;
+  }
 `
 
 const NavActions = styled.ul`
@@ -131,19 +200,40 @@ const AppLoader = styled.div`
 const Overlay = styled.div`
   position: fixed;
   left: 0;
-  top: 80px;
+  top: 0;
   width: 100%;
   height: 100%;
   background: #39374838;
   z-index: 50;
   display: flex;
   justify-content: flex-end;
+  transition: .2s;
+
+  ${media.md} {
+    top: ${({ active }) => active ? "0" : "80px"};
+  }
 ` 
+
+const NavOpener = styled.div`
+  display: flex;
+  align-items: center;
+
+  button {
+    margin-right: 5px;
+    ${media.md} {
+      display: none;
+    }
+  }
+`
 
 export {
   Navbar,
   LogoContainer,
   Overlay,
   NavActions,
-  AppLoader
+  AppLoader,
+  PageLinks,
+  PageLinksContainer,
+  NavLogo,
+  NavOpener
 }

@@ -183,38 +183,16 @@ export class Logo extends Component {
   }
 }
 
-// export class Plus extends Component {
-//   render() {
-//     return (
-//       <svg
-//         {...this.props}
-//         viewBox="0 0 45 45"
-//         fill="none"
-//         xmlns="http://www.w3.org/2000/svg"
-//       >
-//         <g clipPath="url(#clip0_150_1451)">
-//           <path
-//             d="M22.5 15V30"
-//             stroke="#1D1F22"
-//             strokeLinecap="round"
-//             strokeLinejoin="round"
-//           />
-//           <path
-//             d="M15 22.5H30"
-//             stroke="#1D1F22"
-//             strokeLinecap="round"
-//             strokeLinejoin="round"
-//           />
-//         </g>
-//         <defs>
-//           <clipPath id="clip0_150_1451">
-//             <rect width="45" height="45" fill="white" />
-//           </clipPath>
-//         </defs>
-//       </svg>
-//     );
-//   }
-// }
+
+export class Menu extends Component {
+  render() {
+    return (
+      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none">
+        <path fill="#000" d="M3 6a1 1 0 0 1 1-1h16a1 1 0 1 1 0 2H4a1 1 0 0 1-1-1zm0 6a1 1 0 0 1 1-1h16a1 1 0 1 1 0 2H4a1 1 0 0 1-1-1zm1 5a1 1 0 1 0 0 2h16a1 1 0 1 0 0-2H4z" />
+      </svg>
+    );
+  }
+}
 
 export class Minus extends Component {
   render() {

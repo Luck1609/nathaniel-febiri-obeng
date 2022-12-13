@@ -4,64 +4,72 @@ import { getActiveCurrency } from 'helper';
 import styled from 'styled-components';
 import { CaretLeft, CaretRight, Minus, Plus } from 'Assets/svg';
 import Button from 'Components/styles/Button';
-import { changeAttribute, decrement, increment } from 'Redux/cartReducer';
+import { changeAttribute, decrement, increment, removeFromCart } from 'Redux/cartReducer';
 import { connect } from 'react-redux';
-import { media } from 'Components/styles/colors.styles';
+import { border, media } from 'Components/styles/colors.styles';
+import RemoveFromCart from 'Components/NavCart/RemoveFromCart';
 
 
 const CartPageComponent = styled.div`
-  position: relative;
-  /* display: flex; */
-  padding: 10px;
+  border-top: 1px solid ${border};
+  
 
-  ul.cart-item {
-    padding-left: 0;
-    display: block;
-    width: 100%;
+  .cart-component {
+    padding: 0 10px;
 
-    .product-details-info {
-      list-style-type: none;
-      display: flex;
-      ${media.sm} {
+    ul.cart-item {
+      padding-left: 0;
+      display: block;
+      width: 100%;
+
+      .product-details-info {
+        list-style-type: none;
+        display: flex;
         flex-flow: column;
-      }
-      border-top: 1px solid $border;
-      padding: 2pc 0;
+        position: relative;
+        padding: 1pc 0;
 
-      .details {
-        flex-basis: 75%;
-        width: auto;
+        ${media.md} {
+          flex-flow: row;
+        }
+        /* border-top: 1px solid ${border}; */
 
-        .labels {
-          font-size: 26px;
 
-          h3 {
-            margin-bottom: 5px;
+        .details {
+          flex-basis: 75%;
+          width: auto;
+
+          .labels {
+            font-size: 26px;
+
+            h3 {
+              margin-bottom: 5px;
+            }
+
+            label {
+              margin-bottom: 10px;
+              display: inline-block;
+            }
+
+            span {
+              font-size: 20px;
+              font-weight: bold;
+              display: block;
+              margin: 14px 0;
+            }
           }
 
-          label {
+          div {
             margin-bottom: 10px;
-            display: inline-block;
           }
 
-          span {
-            font-size: 20px;
-            font-weight: bold;
-            display: block;
-            margin: 14px 0;
-          }
-        }
+          .sizes {
+            ul {
+              display: inline-block;
 
-        div {
-          margin-bottom: 10px;
-        }
-
-        .sizes {
-          ul {
-            display: inline-block;
-
-            li {
-              margin-right: 8px;
+              li {
+                margin-right: 8px;
+              }
             }
           }
         }
@@ -93,17 +101,31 @@ const AttributeContainer = styled(Attributes)`
 
 const Actions = styled.div`
   display: flex;
+  flex-direction: column;
+  ${media.md} {
+    flex-direction: row;
+  }
   flex-basis: 25%;
 
   .counter {
     margin-right: 1pc;
+    order: 2;
+    ${media.md} {
+      order: 1;
+    }
   }
 
   .action-buttons {
     position: relative;
+    display: flex;
+    order: 1;
+    ${media.md} {
+      order: 2;
+    }
     
     img {
       width: 200px;
+      margin: 0 auto;
       /* height: 288px; */
     }
 
@@ -120,7 +142,8 @@ class CartCard extends Component {
     super(props)
   
     this.state = {
-      imgStep: 0
+      imgStep: 0,
+      removeItem: false
     }
     this.handleNext = this.handleNext.bind(this);
     this.handlePrev = this.handlePrev.bind(this);
@@ -132,30 +155,50 @@ class CartCard extends Component {
   render() {
     const { product, currency, dispatch, index, ...info } = this.props;
 
-    const switchAttrib = (data) => () => {
-      dispatch(changeAttribute({index, data}))
+    const switchAttrib = (data) => () => dispatch(changeAttribute({index, data}))
+
+    const dispatchAction = (action) => {
+      if (info.items.quantity === 1 && action.type === 'cartSlice/decrement') this.setState(prev => ({...prev, removeItem: true}))
+      else {
+      alert('continue')
+        if (action.type === 'cartSlice/removeFromCart') this.setState(prev => ({...prev, removeItem: false}))
+        dispatch(action);
+      }
     }
 
-    const dispatchAction = (action) => dispatch(action);
+    const resetRemoveItem = () => this.setState(prev => ({...prev, removeItem: false}))
 
     return (
       <CartPageComponent>
         <div className="cart-component">
           <ul className="cart-item">
             <li className="product-details-info">
-              {/* {
-                <div className="remove-item">
-                  <p className="">Remove item from cart?</p>
-                  <div className="">
-                    <Button className="" style={{background: "#e54d4d", display: "inline-block", padding: "8px", width: "50px"}} onClick={() => alert('Yes')}>
-                      Yes
-                    </Button>
-                    <Button className="" style={{background: "#5ECE7B", display: "inline-block", padding: "8px", width: "50px", marginLeft: "10px"}} onClick={() => alert('No')}>
-                      No
-                    </Button>
-                  </div>
-                </div>
-              } */}
+              {
+                this.state.removeItem && (
+                  <RemoveFromCart 
+                    remove={() => dispatchAction(removeFromCart(index))}
+                    cancel={resetRemoveItem}
+                  />
+                  // <div className="remove-item">
+                  //   <p className="">Remove item from cart?</p>
+                  //   <div className="">
+                  //     <Button 
+                  //       className="" 
+                  //       background="#e54d4d"
+                  //       display="inline-block"
+                  //       padding="8px" 
+                  //       width="50px" 
+                  //       onClick={() => dispatchAction(removeFromCart(index))}
+                  //     >
+                  //       Yes
+                  //     </Button>
+                  //     <Button className="" style={{background: "#5ECE7B", display: "inline-block", padding: "8px", width: "50px", marginLeft: "10px"}} onClick={resetRemoveItem}>
+                  //       No
+                  //     </Button>
+                  //   </div>
+                  // </div>
+                )
+              }
 
               <div className="details">
                 <div className="labels">
@@ -216,13 +259,13 @@ class CartCard extends Component {
 
               <Actions>
                 <div className="counter flex flex-col">
-                  <CounterBtn onClick={() => dispatchAction(increment({index, count: info.items.quantity + 1}))}>
+                  <CounterBtn onClick={() => dispatchAction(increment(index))}>
                     <Plus width="15" height="15" />
                   </CounterBtn>
 
-                  <span className="flex">1</span>
+                  <span className="flex">{ info.items.quantity }</span>
 
-                  <CounterBtn onClick={() => dispatchAction(decrement({index, count: info.items.quantity - 1}))}>
+                  <CounterBtn onClick={() => dispatchAction(decrement(index))}>
                     <Minus width="15" height="15" />
                   </CounterBtn>
                 </div>
